@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <title>Ajax Test!</title>
+  </head>
+  <body>
+    
+    <div class="container">
+        <div class="row my-1">
+            <div class="col">
+                <div id="banner">
+                </div>
+                <a class="btn btn-outline-primary form-control" id="print-button" href="#" role="button">Print Text!</a>
+            </div>
+        </div>
+        <div class="row mt-3">
+                <div class="col">
+                        <form id="form">
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="name" placeholder="NAME">
+                            </div>
+                            <div class="form-group">
+                                <input type="lastname" class="form-control" id="lastname" placeholder="LASTNAME">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+                </div>
+            </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script>
+        $('document').ready(() => {
+            $('#print-button').click(( event ) => {
+                //event.preventDefault();
+                $.get('/test-text', (data, status) => {
+                    $('#banner').html( data );
+                });
+                event.stopPropagation();
+            });
+
+            $('#form').submit( (event) => {
+                $.post('/read-param',
+                {
+                    name: $('#name').val(),
+                    lastname: $('#lastname').val()
+                }, ( data, status) => {
+                    if( status == 'success'){
+                        alert('form processed.');
+                        $('#name').val('');
+                        $('#lastname').val('');
+                    }
+                });
+                event.preventDefault();
+            });
+        });//jquery end
+    </script>
+  </body>
+</html>
